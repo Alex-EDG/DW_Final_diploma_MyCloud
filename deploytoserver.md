@@ -35,19 +35,19 @@
       `sudo apt upgrade`
       - если нужно также обновить пакеты, которые требуют изменения зависимостей (например, если необходимо удалить старые пакеты или установить новые), можно использовать команду:\
       `sudo apt full-upgrade`
-9. Устанавливаем нужной версии `Python 3.13.1+`:
+9. Устанавливаем нужной версии `Python 3.14+`:
    - Установка необходимых инструментов для добавления PPA:\
       `sudo apt install software-properties-common`
    - Добавление PPA для установок новых версий Python:\
       `sudo add-apt-repository ppa:deadsnakes/ppa`
    - Обновление списка пакетов:\
       `sudo apt update`
-   - Установка Python 3.13 и необходимых пакетов для разработки:\
-      `sudo apt install python3.13 python3.13-venv python3.13-dev python3-pip`
-   - Проверка установленной версии Python 3.13:\
-      `python3.13 --version`
-   - Настройка Python 3.13 как альтернативы для python3:\
-      `sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1`\
+   - Установка Python 3.14 и необходимых пакетов для разработки:\
+      `sudo apt install python3.14 python3.14-venv python3.14-dev python3-pip`
+   - Проверка установленной версии Python 3.14:\
+      `python3 --version`
+   - Настройка Python 3.14 как альтернативы для python3:\
+      `sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.14 1`\
       `sudo update-alternatives --config python3`
    - Проверка версии python3, чтобы убедиться, что всё настроено правильно:\
       `python3 --version`
