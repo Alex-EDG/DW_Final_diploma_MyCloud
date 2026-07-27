@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// Для локального запуска
+// import { Env } from '@humanwhocodes/env';
+// const env = new Env();
+// const API_BASE_URL = `${env.get('API_BASE_URL', 'http://localhost:8000')}/api`;
+
+// Для запуска на сервере
+const API_BASE_URL = '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

@@ -2,14 +2,14 @@
   "name": "final-diploma-frontend",
   "description": "Дипломный проект по профессии «Fullstack-разработчик на Python»",
   "repository": {
-		"type": "git",
-		"url": "git+ssh://git@github.com/Alex-EDG/DW_Final_diploma_MyCloud.git"
-	},
-	"author": "Alexey Neronov",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/Alex-EDG/DW_Final_diploma_MyCloud/issues"
-	},
+    "type": "git",
+    "url": "git+ssh://git@github.com/Alex-EDG/DW_Final_diploma_MyCloud.git"
+  },
+  "author": "Alexey Neronov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alex-EDG/DW_Final_diploma_MyCloud/issues"
+  },
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -22,6 +22,7 @@
   "dependencies": {
     "@ant-design/icons": "^6.3.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@humanwhocodes/env": "^4.0.1",
     "@reduxjs/toolkit": "^2.12.0",
     "antd": "^6.5.1",
     "axios": "^1.18.1",
