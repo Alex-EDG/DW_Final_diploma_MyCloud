@@ -2,7 +2,7 @@
 python-dotenv==1.2.2
 
 # Database
-psycopg2==2.9.12
+psycopg==3.3.4
 psycopg2-binary==2.9.12
 sqlparse==0.5.5
 
