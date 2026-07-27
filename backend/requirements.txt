@@ -1,0 +1,23 @@
+# Environment Management
+python-dotenv==1.2.2
+
+# Database
+psycopg2==2.9.12
+psycopg2-binary==2.9.12
+sqlparse==0.5.5
+
+# Core & Framework
+Django==6.0.7
+django-cors-headers==4.9.0
+djangorestframework==3.17.1
+djangorestframework_simplejwt==5.5.1
+
+# Deployment
+gunicorn==26.0.0
+packaging==26.2
+
+# API
+PyJWT==2.13.0
+
+# DevDependensys
+asgiref==3.12.1
