@@ -1,55 +1,57 @@
-networks:
-  internal_network:
-
 services:
   db:
     image: postgres:18
-    env_file: .env
-    environment:
-      POSTGRES_DB: "${DB_NAME}"
-      POSTGRES_USER: "${DB_USER}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - internal_network
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    # healthcheck для проверки готовности БД
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mycloud"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped # Опционально для продакшена
 
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.backend
     command: >
       sh -c "python manage.py migrate &&
-              python manage.py collectstatic --noinput &&
-              gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --timeout 300"
-    env_file: .env
+              python manage.py create_superuser &&
+              python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app  # Для разработки, можно убрать в продакшене
+      - ./backend/media:/app/media  # Сохраняем загруженные файлы на хост
+    ports:
+      - "8000:8000"
     environment:
+      - SECRET_KEY=${SECRET_KEY}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - SECRET_KEY=${SECRET_KEY}
+      - DB_HOST=db  # Имя сервиса в docker-compose
+      - DB_PORT=5432
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
       - DEBUG=${DEBUG}
-    networks:
-      - internal_network
     depends_on:
       db:
         condition: service_healthy
+    restart: unless-stopped # Опционально для продакшена
 
   frontend:
     build:
-      context: ./frontend
+      context: .
+      dockerfile: Dockerfile.frontend
     ports:
       - "80:80"
-    networks:
-      - internal_network
     depends_on:
       - backend
+    restart: unless-stopped # Опционально для продакшена
 
+# Объявляем именованный volume для данных PostgreSQL
 volumes:
   postgres_data:
-  media_volume:
