@@ -203,7 +203,7 @@ sudo nano /etc/systemd/system/gunicorn.service
                --access-logfile - \
                --workers 3 \
                --bind unix:/run/gunicorn.sock \
-               mycloud.wsgi:application
+               backend.wsgi:application
 
       [Install]
       WantedBy=multi-user.target
