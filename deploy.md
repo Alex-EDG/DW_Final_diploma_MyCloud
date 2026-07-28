@@ -184,7 +184,7 @@ sudo nano /etc/systemd/system/gunicorn.socket
 
     ---
 
-30. Создаем файл `gunicorn.service`:
+30. Создаем файл `gunicorn.service`: где <ИМЯ ПОЛЬЗОВАТЕЛЯ> - пользователь созданный на этапе 4
 ```bash
 sudo nano /etc/systemd/system/gunicorn.service
 ```
@@ -196,10 +196,10 @@ sudo nano /etc/systemd/system/gunicorn.service
       After=network.target
 
       [Service]
-      User=admin
+      User=<ИМЯ ПОЛЬЗОВАТЕЛЯ>
       Group=www-data
-      WorkingDirectory=/home/admin/DW_Final_diploma_MyCloud/backend
-      ExecStart=/home/admin/DW_Final_diploma_MyCloud/backend/venv/bin/gunicorn \
+      WorkingDirectory=/home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/backend
+      ExecStart=/home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/backend/venv/bin/gunicorn \
                --access-logfile - \
                --workers 3 \
                --bind unix:/run/gunicorn.sock \
@@ -237,7 +237,7 @@ sudo systemctl enable gunicorn;
 
     ---
 
-35. Создаем модуль `nginx`:\
+35. Создаем модуль `nginx`: где <ИМЯ ПОЛЬЗОВАТЕЛЯ> - пользователь созданный на этапе 4\
 ```bash
 sudo nano /etc/nginx/sites-available/backend
 ```
@@ -246,7 +246,7 @@ sudo nano /etc/nginx/sites-available/backend
       server {
          listen 80;
          server_name <ИМЯ ДОМЕНА ИЛИ IP АДРЕС СЕРВЕРА>;
-         root /home/admin/DW_Final_diploma_MyCloud/frontend/build;
+         root /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend/build;
          index index.html index.htm;
          try_files $uri $uri/ /index.html;
 
@@ -256,11 +256,11 @@ sudo nano /etc/nginx/sites-available/backend
          }
 
          location /static/ {
-            alias /home/admin/DW_Final_diploma_MyCloud/backend/static/;
+            alias /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/backend/static/;
          }
 
          location /media/ {
-            alias /home/admin/DW_Final_diploma_MyCloud/backend/media/;
+            alias /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/backend/media/;
          }
 
          location /admindjango/ {
@@ -281,7 +281,7 @@ sudo ln -s /etc/nginx/sites-available/backend /etc/nginx/sites-enabled
 ```
 37. Добавляем пользователя `www-data` в группу текущего пользователя:
 ```bash
-sudo usermod -a -G ${admin} www-data
+sudo usermod -a -G <ИМЯ ПОЛЬЗОВАТЕЛЯ> www-data
 ```
 38. Диагностируем `nginx` на предмет ошибок в синтаксисе:
 ```bash
@@ -299,12 +299,12 @@ sudo systemctl restart nginx
 
     ---
 43. Устанавливаем [Node Version Manager](https://github.com/nvm-sh/nvm) (nvm):\
-   `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash`
+   `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh | bash`
 44. Добавляем переменную окружения:
 
       ```bash
       export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
       ```
 
 45. Проверяем версию `nvm`:\
@@ -319,11 +319,10 @@ sudo systemctl restart nginx
     ---
 49. Переходим в папку проекта `frontend`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend`
-50. В папке `frontend/src/services` в файлах `apiService.js` и `authService.js`редактируем базовый URL:\
-   `nano apiService.js`\
-   `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000';`
-   `nano authService.js`\
-   `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000';`
+50. В папке `frontend/src/api` в файлах `client.js` редактируем базовый URL:\
+   `nano client.js`\
+   `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000/api';`
+   
 51. Устанавливаем зависимости:\
    `npm i`
 
@@ -334,12 +333,12 @@ sudo systemctl restart nginx
 
       ```sh
       #!/bin/bash
-      . /home/admin/.nvm/nvm.sh
+      . /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/.nvm/nvm.sh
       npm run build
       ```
 
 53. Делаем файл `start.sh` исполняемым:\
-   `sudo chmod +x /home/admin/DW_Final_diploma_MyCloud/frontend/start.sh`
+   `sudo chmod +x /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend/start.sh`
 
     ---
 
@@ -352,10 +351,10 @@ sudo systemctl restart nginx
       After=network.target
 
       [Service]
-      User=admin
+      User=<ИМЯ ПОЛЬЗОВАТЕЛЯ>
       Group=www-data
-      WorkingDirectory=/home/admin/DW_Final_diploma_MyCloud/frontend
-      ExecStart=/home/admin/DW_Final_diploma_MyCloud/frontend/start.sh
+      WorkingDirectory=/home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend
+      ExecStart=/home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend/start.sh
 
       [Install]
       WantedBy=multi-user.target
