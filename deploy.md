@@ -145,7 +145,7 @@ python manage.py createsuperuser
 ```
     либо готовым скриптом: 
 ```bash
-python manage.py create_admin
+python manage.py create_superuser
 ```
 *Суперпользователь позволят входить как в "Django administration", так и в "Административный интерфейс" на фронте сайта после входа.*
 Вы можете предварительно изменить настройки на свои в файле backend/storage/management/commands/create_superuser.py
@@ -246,7 +246,10 @@ sudo nano /etc/nginx/sites-available/backend
       server {
          listen 80;
          server_name <ИМЯ ДОМЕНА ИЛИ IP АДРЕС СЕРВЕРА>;
-         root /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend/build;
+
+         client_max_body_size 50M;
+
+         root /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend/dist;
          index index.html index.htm;
          try_files $uri $uri/ /index.html;
 
@@ -263,7 +266,7 @@ sudo nano /etc/nginx/sites-available/backend
             alias /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/backend/media/;
          }
 
-         location /admindjango/ {
+         location /admin/ {
             proxy_pass http://unix:/run/gunicorn.sock;
             include proxy_params;
          }
@@ -321,7 +324,7 @@ sudo systemctl restart nginx
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/DW_Final_diploma_MyCloud/frontend`
 50. В папке `frontend/src/api` в файлах `client.js` редактируем базовый URL:\
    `nano client.js`\
-   `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000/api';`
+   `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>/api';`
    
 51. Устанавливаем зависимости:\
    `npm i`
