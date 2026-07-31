@@ -7,18 +7,23 @@ export default defineConfig({
   plugins: [ react() ],
   // Настройки сборки
   build: {
-    outDir: 'build',           // Директория вывода (по умолчанию 'dist')
-    sourcemap: true,          // Генерировать source maps
-    lib: {
-      entry: path.resolve(__dirname, 'src/main.jsx'),
-      name: 'src/index.css',
+    outDir: 'dist',                  // Директория вывода
+    assetsDir: 'assets',             // Поддиректория для ресурсов
+    sourcemap: false,                // Отключить source maps в prod
+    minify: 'esbuild',               // Минификатор (быстрее terser)
+    target: 'es2015',                // Поддержка браузеров
+    cssCodeSplit: true,              // Разделять CSS по чанкам
+    chunkSizeWarningLimit: 1000,     // Предупреждение (КБ)
+    emptyOutDir: true,               // Очищать dist перед сборкой
+    reportCompressedSize: false,     // Не считать размер сжатых файлов (ускоряет сборку)
+    rollupOptions: {
+      input: ['src/main.jsx', 'src/index.css', './index.html'],
     },
-    sourcemap: true // или 'hidden' если не требуется
   },
   // Настройки dev-сервера
   server: {
-    port: 3000,           // Порт (по умолчанию 5173)
-    host: true,           // Слушать на 0.0.0.0 (доступно в сети)
+    port: 8080,           // Порт (по умолчанию 5173)
+    host: '0.0.0.0',      // Слушать на 0.0.0.0 (доступно в сети)
     open: true,           // Открыть браузер при запуске
     https: false,         // HTTPS для dev-сервера
   },
@@ -28,4 +33,3 @@ export default defineConfig({
     }
   }
 });
-
