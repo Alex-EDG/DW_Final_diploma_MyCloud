@@ -1,6 +1,6 @@
+import os
 from django.db import migrations
 from django.contrib.auth import get_user_model
-import os
 
 
 def create_superuser(apps, schema_editor):
