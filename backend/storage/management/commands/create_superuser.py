@@ -7,11 +7,11 @@ class Command(BaseCommand):
     help = 'Создайте суперпользователя, если его ещё нет'
 
     def handle(self, *args, **options):
-        username = os.getenv('ADMIN_USERNAME')
-        first_name = os.getenv('ADMIN_FIRSTNAME')
-        last_name = os.getenv('ADMIN_LASTNAME')
-        email = os.getenv('ADMIN_EMAIL')
-        password = os.getenv('ADMIN_PASSWORD')
+        username = os.getenv('ADMIN_USERNAME', 'admin')
+        password = os.getenv('ADMIN_PASSWORD', 'Admin123!')
+        first_name = os.getenv('ADMIN_FIRSTNAME', 'Admin')
+        last_name = os.getenv('ADMIN_LASTNAME', 'Administrator')
+        email = os.getenv('ADMIN_EMAIL', 'admin@mail.ru')
 
         if User.objects.filter(username=username).exists():
             self.stdout.write(self.style.WARNING(f'Суперпользователь "{username}" уже существует'))
