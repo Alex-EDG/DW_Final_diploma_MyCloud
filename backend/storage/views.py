@@ -175,43 +175,43 @@ class FileViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def download(self, request, pk=None):
         try:
-          file_obj = File.objects.get(pk=pk)
+            file_obj = File.objects.get(pk=pk)
 
-          # Проверяем существование файла в хранилище
-          if not file_obj.file:
-              logger.error(f"Файл ID:{pk} существует в БД, но отсутствует в хранилище")
-              return Response(
-                  {"error": "Файл недоступен для скачивания"},
-                  status=status.HTTP_410_GONE
-              )
+            # Проверяем существование файла в хранилище
+            if not file_obj.file:
+                logger.error(f"Файл ID:{pk} существует в БД, но отсутствует в хранилище")
+                return Response(
+                    {"error": "Файл недоступен для скачивания"},
+                    status=status.HTTP_410_GONE
+                )
 
-          # Разрешаем скачивание либо владельцу, либо администратору
-          if not request.user.is_staff and file_obj.owner != request.user:
-              logger.warning(
-                  f"Попытка несанкционированного доступа к файлу ID:{pk} пользователем {request.user}"
-              )
-              return Response(
-                  {"detail": "У вас нет прав для скачивания этого файла"},
-                  status=status.HTTP_403_FORBIDDEN
-              )
+            # Разрешаем скачивание либо владельцу, либо администратору
+            if not request.user.is_staff and file_obj.owner != request.user:
+                logger.warning(
+                    f"Попытка несанкционированного доступа к файлу ID:{pk} пользователем {request.user}"
+                )
+                return Response(
+                    {"detail": "У вас нет прав для скачивания этого файла"},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
-          response = FileResponse(file_obj.file)
-          response['Content-Disposition'] = f'attachment; filename="{file_obj.original_name}"'
-          response['Content-Type'] = 'application/octet-stream'
-          logger.info(f'Скачивание файла {file_obj.original_name}, владельцем или админом')
+            response = FileResponse(file_obj.file)
+            response['Content-Disposition'] = f'attachment; filename="{file_obj.original_name}"'
+            response['Content-Type'] = 'application/octet-stream'
+            logger.info(f'Скачивание файла {file_obj.original_name}, владельцем или админом')
 
-          file_obj.last_download = timezone.now()
-          file_obj.save()
+            file_obj.last_download = timezone.now()
+            file_obj.save()
 
-          return response
+            return response
         
         except File.DoesNotExist:
-        # Логируем попытку доступа к несуществующему файлу
-          logger.info(f"Попытка доступа к несуществующему файлу ID:{pk}")
-          return Response(
-              {"error": "Файл не найден"},
-              status=status.HTTP_404_NOT_FOUND
-          )
+            # Логируем попытку доступа к несуществующему файлу
+            logger.info(f"Попытка доступа к несуществующему файлу ID:{pk}")
+            return Response(
+                {"error": "Файл не найден"},
+                status=status.HTTP_404_NOT_FOUND
+            )
         
         except Exception as e:
             # Логируем непредвиденные ошибки
@@ -322,8 +322,8 @@ class FileViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
-          logger.exception(f'Ошибка при удалении файла ID:{pk}')
-          return Response(
-              {"error": "Внутренняя ошибка сервера"},
-              status=status.HTTP_500_INTERNAL_SERVER_ERROR
-          )
+            logger.exception(f'Ошибка при удалении файла ID:{pk}')
+            return Response(
+                {"error": "Внутренняя ошибка сервера"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
