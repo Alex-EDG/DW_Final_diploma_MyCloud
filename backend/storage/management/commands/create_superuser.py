@@ -35,6 +35,5 @@ class Command(BaseCommand):
                     f'First_name: {admin_user.first_name}\n'
                     f'Last_name: {admin_user.last_name}\n'
                     f'Email: {admin_user.email}\n'
-                    f'Storage path: {admin_user.storage_path}'
                 )
             )
