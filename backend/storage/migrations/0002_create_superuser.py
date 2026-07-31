@@ -5,19 +5,12 @@ import os
 
 def create_superuser(apps, schema_editor):
     User = get_user_model()
-    admin_username = os.getenv('ADMIN_USERNAME', 'admin')
-    admin_password = os.getenv('ADMIN_PASSWORD', 'Admin123!')
-    admin_firstname = os.getenv('ADMIN_FIRSTNAME', 'Admin')
-    admin_lastname = os.getenv('ADMIN_LASTNAME', 'Administrator')
-    admin_email = os.getenv('ADMIN_EMAIL', 'admin@mail.ru')
-    superuser = User.objects.create_superuser()
+    admin_password = os.getenv('ADMIN_PASSWORD')
 
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
-            username=admin_username,
-            first_name=admin_firstname,
-            last_name=admin_lastname,
-            email=admin_email,
+            username='admin',
+            email='admin@mail.ru',
             password=admin_password,
             is_active=True,
             is_staff=True

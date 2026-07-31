@@ -5,9 +5,9 @@ from users.models import User
 
 class Command(BaseCommand):
     help = 'Создайте суперпользователя, если его ещё нет'
+    username = os.getenv('ADMIN_USERNAME', 'admin')
 
     def handle(self, *args, **options):
-        username = os.getenv('ADMIN_USERNAME', 'admin')
         password = os.getenv('ADMIN_PASSWORD', 'Admin123!')
         first_name = os.getenv('ADMIN_FIRSTNAME', 'Admin')
         last_name = os.getenv('ADMIN_LASTNAME', 'Administrator')
