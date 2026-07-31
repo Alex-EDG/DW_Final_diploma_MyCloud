@@ -22,19 +22,19 @@ class Command(BaseCommand):
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
-                is_admin=True,
+                is_active=True,
                 is_staff=True,      # Для доступа к Django админке
                 is_superuser=True   # Полные права в Django
             )
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                f'Администратор создан:\n'
-                f'Username: {admin_user.username}\n'
-                f'Password: {admin_user.password}\n'
-                f'First_name: {admin_user.first_name}\n'
-                f'Last_name: {admin_user.last_name}\n'
-                f'Email: {admin_user.email}\n'
-                f'Storage path: {admin_user.storage_path}'
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f'Администратор создан:\n'
+                    f'Username: {admin_user.username}\n'
+                    f'Password: {admin_user.password}\n'
+                    f'First_name: {admin_user.first_name}\n'
+                    f'Last_name: {admin_user.last_name}\n'
+                    f'Email: {admin_user.email}\n'
+                    f'Storage path: {admin_user.storage_path}'
+                )
             )
-        )
