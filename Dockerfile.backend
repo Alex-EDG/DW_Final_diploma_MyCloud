@@ -5,11 +5,11 @@ FROM python:3.14-slim-bookworm
 WORKDIR /app
 
 # Копируем requirements.txt и устанавливаем зависимости
-COPY ./mycloud/requirements.txt /app/requirements.txt
+COPY ./DW_Final_diploma_MyCloud/backend/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем весь код проекта
-COPY ./mycloud /app
+COPY ./DW_Final_diploma_MyCloud/backend /app
 
 # Создаем директорию для static файлов (на случай collectstatic в будущем)
 RUN mkdir -p /app/staticfiles
